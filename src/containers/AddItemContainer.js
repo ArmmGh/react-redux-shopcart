@@ -6,9 +6,9 @@ const mapStateToProps = state => ({
     listState: state
 })
 const mapDispatchToProps = dispatch => ({
-    onAdd: payload => dispatch(addItem(params))
+    onAdd: (name, price) => dispatch(addItem(name, price))
 });
 
-const AddItemContainer = connect(mapStateToProps, mapDispatchToProps)(addItem);
+const AddItemContainer = connect(mapStateToProps, mapDispatchToProps)(AddItem);
 
 export default AddItemContainer;

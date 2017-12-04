@@ -10,7 +10,8 @@ export const deleteCart = (param) => ({
   id: param
 })
 
-export const addItem = (params) => ({
+export const addItem = (name, price) => ({
   type: ADD_ITEM,
-  payload: params
+  name,
+  price
 })

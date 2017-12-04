@@ -1,29 +1,30 @@
 import React, { Component } from 'react';
 import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
+import ShopCart from './ShopCart';
 
 class AddItem extends Component {
     constructor(props) {
         super(props);
-        this.state = [{
-            newItem: {
-                name: null,
-                price: 0,
-            }
-        }]
-        this.handleChange = this.handleChange.bind(this);
-        this.AddItem = this.AddItem.bind();
+        this.state = {
+            name: '',
+            price: ''
+        }
+        this.handleName = this.handleName.bind(this);
+        this.handlePrice = this.handlePrice.bind(this);
+        this.addItem = this.addItem.bind(this);
     }
-    handleChange(e) {
-        this.setState({
-            newItem: {
-                name: e.target.value
-            }
-        })
+    handleName(e) {
+        this.setState({ name: e.target.value })
     }
-    
-    AddItem(newItem) {
+    handlePrice(e) {
+        const val = e.target.value;
+        val > 0 ? this.setState({ price: val }) : null;
+    }
 
+    addItem = (name, price) => event => {
+        name ? this.props.onAdd(name, price) : null;
+        this.setState({ name: '', price: '' });
     }
 
     render() {
@@ -33,9 +34,17 @@ class AddItem extends Component {
                     type="text"
                     id="uncontrolled"
                     label="Product Name"
-                    onChange={this.handleChange}
+                    onChange={this.handleName}
+                    value={this.state.name}
                 />
-                <Button raised color="primary" onClick={this.AddItem(this.state.newItem)}>
+                <TextField
+                    type="number"
+                    id="uncontrolled"
+                    label="Price $"
+                    onChange={this.handlePrice}
+                    value={this.state.price}
+                />
+                <Button raised color="primary" onClick={this.addItem(this.state.name, this.state.price)}>
                     Add
                 </Button>
             </div>

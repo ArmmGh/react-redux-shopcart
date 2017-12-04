@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import List from 'material-ui/List';
 import ShopItemContainer from '../containers/ShopItemContainer';
 

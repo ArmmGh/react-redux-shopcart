@@ -26,7 +26,7 @@ class ShopItem extends Component {
     }
 
     render() {
-        const { name, price, count, imgSrc, id, addToCart } = this.props;
+        const { name, price, count, imgSrc, id } = this.props;
         return (
             <ListItem>
                 <img width='80' height='80' src={imgSrc} />
