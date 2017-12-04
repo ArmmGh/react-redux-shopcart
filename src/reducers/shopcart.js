@@ -34,7 +34,13 @@ const shopcart = (state = initialState, action) => {
         case DELETE_CART:
             return state.map(item => item.id === action.id ? { ...item, isAdded: false } : item);
         case ADD_ITEM:
-            return [...state, { id: state.length + 1, name: action.name, price: action.price, isAdded: false }];
+            return [...state, {
+                id: state.length + 1,
+                name: action.name,
+                price: action.price,
+                img: action.imgSrc,
+                isAdded: false 
+            }];
 
         default:
             return state;

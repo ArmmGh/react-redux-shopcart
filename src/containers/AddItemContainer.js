@@ -6,7 +6,7 @@ const mapStateToProps = state => ({
     listState: state
 })
 const mapDispatchToProps = dispatch => ({
-    onAdd: (name, price) => dispatch(addItem(name, price))
+    onAdd: (name, price, imgSrc) => dispatch(addItem(name, price, imgSrc))
 });
 
 const AddItemContainer = connect(mapStateToProps, mapDispatchToProps)(AddItem);

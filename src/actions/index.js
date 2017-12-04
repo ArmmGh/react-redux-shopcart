@@ -10,8 +10,9 @@ export const deleteCart = (param) => ({
   id: param
 })
 
-export const addItem = (name, price) => ({
+export const addItem = (name, price, imgSrc) => ({
   type: ADD_ITEM,
   name,
-  price
+  price,
+  imgSrc
 })

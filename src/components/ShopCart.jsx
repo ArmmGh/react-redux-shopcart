@@ -69,6 +69,7 @@ class ShopCart extends Component {
                                     <ListItemIcon>
                                         <Delete onClick={this.handleDelete(item.id)} />
                                     </ListItemIcon>
+                                    <img width='50' height='50' src={item.img} alt={item.name} />
                                     <ListItemText primary={item.name} secondary={item.price + '$'} />
                                 </ListItem>
                             )
