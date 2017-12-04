@@ -1,4 +1,4 @@
-import { ADD_TO_CART, DELETE_CART } from '../constants';
+import { ADD_TO_CART, DELETE_CART, ADD_ITEM } from '../constants';
 
 const initialState = [{
         id: 1,
@@ -33,6 +33,8 @@ const shopcart = (state = initialState, action) => {
             return state.map(item => item.id === action.id ? { ...item, isAdded: true } : item);
         case DELETE_CART:
             return state.map(item => item.id === action.id ? { ...item, isAdded: false } : item);
+        case ADD_ITEM:
+            return console.log(action);
 
         default:
             return state
