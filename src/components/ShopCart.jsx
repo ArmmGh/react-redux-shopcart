@@ -6,7 +6,8 @@ import ShoppingCart from 'material-ui-icons/ShoppingCart';
 import Popover from 'material-ui/Popover';
 import Paper from 'material-ui/Paper';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
-import Delete from 'material-ui-icons/Delete';
+import ShopCartItem from './ShopCartItem';
+import Snackbar from 'material-ui/Snackbar';
 
 class ShopCart extends Component {
     constructor(props) {
@@ -14,9 +15,12 @@ class ShopCart extends Component {
         this.state = {
             open: false,
             anchorEl: null,
+            openSnack: false
         }
         this.handleClick = this.handleClick.bind(this);
         this.handlePopoverClose = this.handlePopoverClose.bind(this);
+        this.onBuy = this.onBuy.bind(this);
+        this.handleRequestClose = this.handleRequestClose.bind(this);
     }
     handleClick = () => {
         !this.props.cartstate.length ? null : this.setState(prevState => ({
@@ -34,6 +38,15 @@ class ShopCart extends Component {
                 !this.props.cartstate.length ? this.handlePopoverClose() : null;
             })
     }
+    handleRequestClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        this.setState({ openSnack: false });
+    }
+    onBuy = ({ name, count, calcPrice } = item) => {
+        this.setState({ openSnack: true, name, count, calcPrice });
+    }
 
     render() {
         const fixStyle = {
@@ -41,6 +54,7 @@ class ShopCart extends Component {
             'top': '15px',
             'right': '15px'
         }
+        const { name, count, calcPrice } = this.state;
         return (
             <div style={fixStyle}>
                 <IconButton ref={node => { this.button = node }} onClick={this.handleClick}>
@@ -65,17 +79,33 @@ class ShopCart extends Component {
                     <List>
                         {
                             this.props.cartstate.map((item, i) =>
-                                <ListItem key={i} button>
-                                    <ListItemIcon>
-                                        <Delete onClick={this.handleDelete(item.id)} />
-                                    </ListItemIcon>
-                                    <img width='50' height='50' src={item.img} alt={item.name} />
-                                    <ListItemText primary={item.name} secondary={item.price + '$'} />
-                                </ListItem>
+                                <ShopCartItem
+                                    key={i}
+                                    name={item.name}
+                                    price={item.price}
+                                    id={item.id}
+                                    img={item.img}
+                                    deleteItem={this.handleDelete}
+                                    buyItem={this.onBuy}
+                                />
                             )
                         }
                     </List>
                 </Popover>
+                <Snackbar
+                    onClick={this.handleRequestClose}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'center',
+                    }}
+                    open={this.state.openSnack}
+                    autoHideDuration={6000}
+                    onRequestClose={this.handleRequestClose}
+                    SnackbarContentProps={{
+                        'aria-describedby': 'message-id',
+                    }}
+                    message={<span id="message-id">{this.state.name}, Count: {this.state.count}, Total: {this.state.calcPrice + '$'}</span>}
+                />
             </div>
         );
     }

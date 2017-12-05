@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
 import ShopCart from './ShopCart';
-import { withStyles } from 'material-ui/styles';
+import Snackbar from 'material-ui/Snackbar';
 
 class AddItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            open: false,
             name: '',
             price: 1,
             imgSrc: '../no-image.png'
@@ -36,9 +37,16 @@ class AddItem extends Component {
         const file = e.target.files[0];
         reader.readAsDataURL(file);
         reader.onloadend = () => {
-            this.setState({imgSrc: reader.result})
+            this.setState({ imgSrc: reader.result, open: true })
         }
     }
+    handleRequestClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        this.setState({ open: false });
+    };
 
     render() {
         const { name, price, imgSrc } = this.state;
@@ -75,6 +83,25 @@ class AddItem extends Component {
                 <Button raised color="primary" onClick={this.addItem(name, price, imgSrc)} disabled={!name}>
                     Add
                 </Button>
+                <Snackbar
+                    onClick={this.handleRequestClose}
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'center',
+                    }}
+                    open={this.state.open}
+                    autoHideDuration={2000}
+                    onRequestClose={this.handleRequestClose}
+                    SnackbarContentProps={{
+                        'aria-describedby': 'message-id',
+                    }}
+                    message={<span id="message-id">Image Uploaded</span>}
+                    action={
+                        <Button key="undo" color="accent" dense onClick={this.handleRequestClose}>
+                            Close
+                        </Button>
+                    }
+                />
             </form>
         )
     }
